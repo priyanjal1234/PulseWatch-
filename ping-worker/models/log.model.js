@@ -10,13 +10,17 @@ const logSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
-    status: {
-      type: String,
-      enum: ["up", "down"],
-    },
-    responseTime: {
-      type: Number,
-    },
+    status: [
+      {
+        type: String,
+        enum: ["up","down"]
+      }
+    ],
+    responseTime: [
+      {
+        type: Number
+      }
+    ],
   },
   { timestamps: true }
 );

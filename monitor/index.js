@@ -3,10 +3,14 @@ dotenv.config();
 
 import app from "./app.js";
 import db from "./config/db.js";
+import scheduleMonitor from "./utils/scheduleMonitor.js";
 
 db()
-  .then(function () {
+  .then(async function () {
     const port = process.env.PORT || 4002;
+
+    await scheduleMonitor()
+
     app.listen(port, function () {
       console.log(`Monitor Service is running on port ${port}`);
     });

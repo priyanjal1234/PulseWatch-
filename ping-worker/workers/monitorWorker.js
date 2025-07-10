@@ -15,16 +15,20 @@ new Worker(
     try {
       let { status, responseTime } = await ping(url);
 
-      let lastLog = await logModel
-        .findOne({ monitorId })
-        .sort({ timestamp: -1 });
-      let newLog = await logModel.create({
-        monitorId,
-        user: userId,
-        status,
-        responseTime,
-      });
-      console.log(newLog)
+      let updatedLog = await logModel.findOneAndUpdate(
+        { monitorId, user: userId },
+        {
+          $push: {
+            status: status,
+            responseTime: responseTime,
+          },
+        },
+        {
+          upsert: true,
+          new: true,
+        }
+      );
+      // console.log(updatedLog)
     } catch (error) {
       console.log(`Error occurred while monitoring: ${error}`);
     } finally {
